@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# Ignore config files
+config/development.json
+config/production.json
