@@ -1,0 +1,23 @@
+{
+  "name": "marabastad",
+  "version": "0.0.1",
+  "description": "Place where digital content gets sold.",
+  "main": "marabastad.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kngako/marabastad.git"
+  },
+  "keywords": [
+    "digital",
+    "market"
+  ],
+  "author": "kngako",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/kngako/marabastad/issues"
+  },
+  "homepage": "https://github.com/kngako/marabastad#readme"
+}
