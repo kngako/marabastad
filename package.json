@@ -19,5 +19,22 @@
   "bugs": {
     "url": "https://github.com/kngako/marabastad/issues"
   },
-  "homepage": "https://github.com/kngako/marabastad#readme"
+  "homepage": "https://github.com/kngako/marabastad#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "config": "^1.29.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mime": "^2.2.0",
+    "multer": "^1.3.0",
+    "nodemailer": "^4.4.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "prompt": "^1.0.0",
+    "pug": "^2.0.0-rc.4",
+    "sequelize": "^4.32.1",
+    "sqlite3": "^3.1.13",
+    "unirest": "^0.5.1"
+  }
 }
