@@ -2,7 +2,24 @@
  * This router handles things related to the web browser experience...
  */
 // This is the mock data we working with...
-
+var stalls = [
+    {   
+        id: 12,
+        name: "Short Stories",
+        description: "Short Stories written by your favourite author.",
+        image: {
+            src: "/account/static/img/share_image.jpg"
+        }
+    },
+    {
+        id: 123,
+        name: "I Am Your Crush. These Are My Selfies",
+        description: "Daily selfies from the ones out there.",
+        image: {
+            src: "/account/static/img/coins.jpg"
+        }
+    }
+]
 module.exports = function (options) {
     var path = require('path');
     var multer  = require('multer');
@@ -39,25 +56,30 @@ module.exports = function (options) {
 
     const pug = require('pug');
     
-    // TODO: Compile all the pug views
-    const notFoundPage = pug.compileFile('views/404.pug'); 
+    const marketPage = pug.compileFile('views/market.pug');
+    const stallPage = pug.compileFile('views/stall.pug');
     const errorPage = pug.compileFile('views/error.pug');
-    const homePage = pug.compileFile('views/home.pug');
 
     var router = express.Router();
 
-    // Home page...
+    // Account page...
     router.route('/')
         .get(function(request, response, next) {
-            response.redirect("http://eepurl.com/b653bL");
-            // response.send(homePage({
-            //     user: request.user,
-            //     pageTitle: "Money Jar - Home"
-            // }))
+            // TODO: Pass the best selling stall...
+            response.send(marketPage({
+                user: request.user,
+                pageTitle: "Marabastad - Market",
+                stalls: stalls
+            }))
         });
-    
-    // router.use(function (request, response, next) {
-    //     response.status(500).redirect("/error");
-    // })
+
+    router.route('/:stallId')
+        .get(function(request, response, next) {
+            response.send(stallPage({
+                user: request.user,
+                pageTitle: "Marabastad - " + stalls[0].name,
+                stall: stalls[0]
+            }))
+        });
     return router;
 };

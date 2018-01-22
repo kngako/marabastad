@@ -115,14 +115,16 @@ module.exports = function (config, db) {
     var apiRouter = require('./server/api/router.js')(routerOptions);              // get an instance of the express Router
     var webRouter = require('./server/web/router.js')(routerOptions);
     var webAccountRouter = require('./server/web/account/router.js')(routerOptions);
+    var webMarketRouter = require('./server/web/market/router.js')(routerOptions);
     
     // REGISTER OUR ROUTES -------------------------------
     // all of our routes will be prefixed with /api
     app.use('/account/api', apiRouter);
     app.use('/', webRouter);
     app.use('/account/', webAccountRouter)
+    app.use('/market/', webMarketRouter)
     
-    router.use('/admin/static', express.static('static'))
+    app.use('/account/static', express.static('static'))
     // TODO: Define 404 and error page here...
     
     
@@ -135,7 +137,7 @@ module.exports = function (config, db) {
         if (request.accepts('html')) {
             response.send(notFoundPage({
                 user: request.user,
-                pageTitle: "Money Jar - 404"
+                pageTitle: "Marabastad - 404"
             }))
             return;
         }

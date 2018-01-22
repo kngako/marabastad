@@ -1,0 +1,19 @@
+extend templates/layout.pug
+
+block content
+    .container
+        .center
+            h1 Marabastad Market
+            
+            //- TODO: We are using cards bitches!
+            .row
+                each stall in stalls
+                    .col.s12.m4
+                        .card
+                            .card-image
+                                img(src=stall.image.src, alt=stall.name)
+                                span.card-title= stall.name
+                                //- <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+                                a.btn-floating.halfway-fab.waves-effect.waves-light.green(href="/market/" + stall.id)
+                            .card-content
+                                .p= stall.description

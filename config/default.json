@@ -16,7 +16,7 @@
         // Unique sercret key to be used on the express cookies...
         "domain": "marabastad.jar.money",
         "secret" : "don't forget to keep your secrets secret",
-        "port" : 8787
+        "port" : 8989
     },
     "email" : {
         // Unique sercret key to be used on the express cookies...

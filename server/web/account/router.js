@@ -39,6 +39,8 @@ module.exports = function (options) {
 
     const pug = require('pug');
     
+    const accountPage = pug.compileFile('views/account.pug');
+    const menuPage = pug.compileFile('views/menu.pug');
     const confirmEmailPage = pug.compileFile('views/confirm-email.pug');
     const confirmationFailurePage = pug.compileFile('views/confirmation-failure.pug');
     const confirmationSuccessPage = pug.compileFile('views/confirmation-success.pug');
@@ -53,10 +55,25 @@ module.exports = function (options) {
     router.route('/')
         .get(function(request, response, next) {
             // TODO: Decide what the account homepage should have...
-            response.send(homePage({
+            if(request.user) {
+                response.send(accountPage({
+                    user: request.user,
+                    pageTitle: "Marabastad - Home"
+                }))
+            } else {
+                response.redirect("/account/login");
+            }
+            
+        });
+
+    router.route('/menu')
+        .get(function(request, response, next) {
+            // TODO: Decide what the account homepage should have...
+            response.send(menuPage({
                 user: request.user,
-                pageTitle: "Marabastad - Home"
+                pageTitle: "Marabastad - Menu"
             }))
+            
         });
 
     // Account Signup Page...
@@ -91,7 +108,7 @@ module.exports = function (options) {
                 if((request.body.password !== request.body.confirmPassword) || request.body.password.length == 0) { // TODO: Might do this on the database object...
                     // TODO: user flash... passwords don't match
                     response.send(signupPage({
-                        pageTitle: "Money Jar - Signup",
+                        pageTitle: "Marabastad - Signup",
                         errorMessage: "passwords don't match",
                         subErrorMessage: null,
                         user: tmpUser
@@ -131,7 +148,7 @@ module.exports = function (options) {
                                     // TODO: Figure out what problems arises without saving session...
                                     response.send(confirmEmailPage({
                                         user: request.user,
-                                        pageTitle: "Money Jar - Confirm email"
+                                        pageTitle: "Marabastad - Confirm email"
                                     }));
                                 });
                                 
@@ -167,7 +184,7 @@ module.exports = function (options) {
                                 subErrorMessage = error.errors[0].message
                             }
                             response.send(signupPage({
-                                pageTitle: "Money Jar - Signup",
+                                pageTitle: "Marabastad - Signup",
                                 errorMessage: errorMessage,
                                 subErrorMessage: subErrorMessage,
                                 user: tmpUser
@@ -178,7 +195,7 @@ module.exports = function (options) {
                         // TODO: Report error to user...
                         response.send(errorPage({
                             user: request.user,
-                            pageTitle: "Money Jar - Signup ERROR"
+                            pageTitle: "Marabastad - Signup ERROR"
                         }))
                     });
                 }
@@ -206,7 +223,7 @@ module.exports = function (options) {
                     }).then(() => {
                         response.send(confirmationSuccessPage({
                             user: request.user,
-                            pageTitle: "Money Jar - Confirmation Success"
+                            pageTitle: "Marabastad - Confirmation Success"
                         }))
                         // response.redirect("/confirmation-success");
                     })
@@ -215,14 +232,14 @@ module.exports = function (options) {
                         // TODO: Show error info...
                         response.send(errorPage({
                             user: request.user,
-                            pageTitle: "Money Jar - Error"
+                            pageTitle: "Marabastad - Error"
                         }))
                     });
                 } else {
                     // TODO: Render confirmation error...
                     response.send(confirmationFailurePage({
                         user: request.user,
-                        pageTitle: "Money Jar - Confirmation Failure"
+                        pageTitle: "Marabastad - Confirmation Failure"
                     }))
                     // response.status(400).send("Match not found");
                 }
@@ -235,7 +252,7 @@ module.exports = function (options) {
             if (request.user && request.user.emailConfirmedOn == null) {
                 response.send(confirmEmailPage({
                     user: request.user,
-                    pageTitle: "Money Jar - Confirm email"
+                    pageTitle: "Marabastad - Confirm email"
                 }))
             } else if(request.user){
                 response.redirect('/account');
@@ -251,7 +268,7 @@ module.exports = function (options) {
                 response.redirect('/account');
             } else {
                 response.send(loginPage({
-                    pageTitle: "Money Jar - Login",
+                    pageTitle: "Marabastad - Login",
                     data: null
                 }))
             }
@@ -265,7 +282,7 @@ module.exports = function (options) {
                 passport.authenticate('local', (error, user, info) => {                
                     if(info) {
                         response.send(loginPage({
-                            pageTitle: "Money Jar - Login",
+                            pageTitle: "Marabastad - Login",
                             data: info
                         }))
                     }
@@ -280,7 +297,7 @@ module.exports = function (options) {
         });
 
     // Account Logout
-    router.get('/account/logout', function(request, response){
+    router.get('/logout', function(request, response){
             if(request.user){
                 request.logout();   
             } 
@@ -288,10 +305,10 @@ module.exports = function (options) {
         });
 
     // Account Unauthorized
-    router.get('/account/unauthorized', function(request, response){
+    router.get('/unauthorized', function(request, response){
             response.send(unauthorizedPage({
                 user: request.user,
-                pageTitle: "Money Jar - Unauthorized"
+                pageTitle: "Marabastad - Unauthorized"
             }))
         });
 

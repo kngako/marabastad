@@ -1,0 +1,14 @@
+extend templates/layout.pug
+
+block content
+    .container
+        .center
+            //- TODO: Style the menu...
+            ul
+                each menuItem in menuItems
+                    li
+                        a(href=menuItem.link)= menuItem.name
+                            i.material-icons.left= menuItem.image
+                if user
+                    li
+                        a(href="/account/logout") Logout

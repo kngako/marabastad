@@ -1,5 +1,3 @@
-import { resolve } from '../../../.cache/typescript/2.6/node_modules/@types/bluebird';
-
 module.exports = function (config) {
     var db = {};
 
@@ -47,6 +45,8 @@ module.exports = function (config) {
     db.Location = require('./models/location.js')(dbOptions.sequelize, dbOptions.Sequelize, dbOptions);
     db.Confirmation = require('./models/confirmation.js')(dbOptions.sequelize, dbOptions.Sequelize, dbOptions);
     db.Image = require('./models/image.js')(dbOptions.sequelize, dbOptions.Sequelize, dbOptions);
+    db.Product = require('./models/product.js')(dbOptions.sequelize, dbOptions.Sequelize, dbOptions);
+    db.Stall = require('./models/stall.js')(dbOptions.sequelize, dbOptions.Sequelize, dbOptions);
     
     // Time for the associations...
     // User 1:N associations
@@ -64,6 +64,11 @@ module.exports = function (config) {
     db.User.Images = db.User.hasMany(db.Image);
     db.Image.User = db.Image.belongsTo(db.User);
     
+    db.Product.Stall = db.Product.belongsTo(db.Stall);
+
+    db.Stall.Products = db.Stall.hasMany(db.Product);
+    db.Stall.User = db.Stall.belongsTo(db.User);
+
     db.LoadDB = (callback) => {
         return new Promise((resolve, reject) => {
             dbOptions.sequelize.sync()

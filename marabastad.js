@@ -8,5 +8,7 @@ var dbUtils = require('./persistence.js')(config);
 
 dbUtils.LoadDB().then(db => {
     var server = require('./server.js')(config, db);
-});
-
+}).catch(error => {
+    console.error("DB failed: ", error);
+    
+})

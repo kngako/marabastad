@@ -70,19 +70,31 @@ html(lang="en" dir="ltr")
                 .container
                     .nav-wrapper
                         a.brand-logo(href="/") Marabastad
-                        a.button-collapse(href="/admin")
-                            i.material-icons monetization_on
+
+                        a.button-collapse(href="/account/menu")
+                            i.material-icons menu
+                        -
+                            var menuItems = [
+                                {
+                                    name: "Sell Something",
+                                    link: "/account",
+                                    image: "store"
+                                },
+                                {
+                                    name: "Buy Something",
+                                    link: "/market",
+                                    image: "shopping_cart"
+                                }
+                            ]
                         ul#nav-mobile.hide-on-med-and-down.right
-                            li
-                                a(href="/account") Sell Something
-                                    i.material-icons.left monetization_on
-                            li
-                                a(href="/account") Buy Something
-                                    i.material-icons.left monetization_on
+                            each menuItem in menuItems
+                                li
+                                    a(href=menuItem.link)= menuItem.name
+                                        i.material-icons.left= menuItem.image
                             if user
                                 li
-                                    a(href="/admin/logout") Logout
-                                //- <a href="/admin"><i class="material-icons left">search</i>Open Your Jar</a>
+                                    a(href="/account/logout") Logout
+                                //- <a href="/account"><i class="material-icons left">search</i>Open Your Jar</a>
                             //- li
                                 <a href="/explore">Explore Jars</a>
         
